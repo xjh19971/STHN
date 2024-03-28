@@ -102,8 +102,8 @@
                   </span>
                   <span>arXiv</span>
                 </a>
-              </span>
-              <span class="link-block">
+              </span> -->
+              <!-- <span class="link-block">
                 <a href="https://www.youtube.com/watch?v=KVHFcNsK8Bg&ab_channel=ARPLNYU"
                    class="external-link button is-normal ">
                   <span class="icon">
@@ -111,16 +111,16 @@
                   </span>
                   <span>Video</span>
                 </a>
-              </span>
+              </span> -->
               <span class="link-block">
-                <a href="https://github.com/arplaboratory/satellite-thermal-geo-localization"
+                <a href="https://github.com/arplaboratory/STHN"
                    class="external-link button is-normal ">
                   <span class="icon">
                       <i class="fab fa-github"></i>
                   </span>
                   <span>Code</span>
                   </a>
-              </span> -->
+              </span>
           </div>
         </div>
       </div>
@@ -128,16 +128,16 @@
   </div>
 </section>
 
-<!-- <section class="hero teaser">
+<section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
         <video id="dinov2_gardens" autoplay controls muted loop playsinline height="100%">
-          <source src="./data/demo/IROS2023-STL.mp4"
+          <source src="./data/demo/STHN_subtitle_final.mp4"
                   type="video/mp4">
         </video>
     </div>
   </div>
-</section> -->
+</section>
 
 <section class="hero is-small is-light">
   <div class="hero-body">
@@ -148,7 +148,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Geo-localization of unmanned aerial vehicles (UAVs) is critical for a range of outdoor applications like search and rescue, power line inspection, etc. The vulnerability of Global Navigation Satellite Systems (GNSS) signals to interference and spoofing necessitates the development of more robust localization methods. Visual Geo-localization (VG), leveraging onboard cameras and reference satellite maps, offers a promising solution. Specifically, Thermal Geo-localization (TG) stands out by utilizing infrared cameras for effective night-time localization. However, the efficiency and effectiveness of current TG approaches, which rely on matching thermal imagery with satellite databases, are hindered by dense sampling on satellite maps and geometric noises in thermal query images. To overcome these challenges, we introduce STHN, a novel UAV thermal geo-localization framework that employs a coarse-to-fine deep homography estimation method. This method attains reliable thermal geo-localization within a 512-meter radius of the UAV's last known location even with a challenging 11\% overlap between satellite and thermal images, despite the presence of indistinct textures in thermal imagery and aliasing patterns in both spectra. Our research significantly enhances UAV thermal geo-localization efficiency and robustness to geometric noises under low-visibility conditions in the wild. The code will be made publicly available after review.
+            Accurate geo-localization of Unmanned Aerial Vehicles (UAVs) is crucial for a variety of outdoor applications including search and rescue operations, power line inspections, and environmental monitoring. The vulnerability of Global Navigation Satellite Systems (GNSS) signals to interference and spoofing necessitates the development of additional robust localization methods for autonomous navigation. Visual Geo-localization (VG), leveraging onboard cameras and reference satellite maps, offers a promising solution for absolute localization. Specifically, Thermal Geo-localization (TG), which relies on image-based matching between thermal imagery with satellite databases, stands out by utilizing infrared cameras for effective night-time localization. However, the efficiency and effectiveness of current TG approaches, are hindered by dense sampling on satellite maps and geometric noises in thermal query images. To overcome these challenges, in this paper, we introduce STHN, a novel UAV thermal geo-localization approach that employs a coarse-to-fine deep homography estimation method. This method attains reliable thermal geo-localization within a 512-meter radius of the UAV's last known location even with a challenging 11\% overlap between satellite and thermal images, despite the presence of indistinct textures in thermal imagery and self-similar patterns in both spectra. Our research significantly enhances UAV thermal geo-localization performance and robustness against the impacts of geometric noises under low-visibility conditions in the wild. The code will be made publicly available.
           </p>
         </div>
       </div>
