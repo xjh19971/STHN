@@ -5,7 +5,7 @@
         
   <meta charset="utf-8">
   <meta name="description"
-        content="STHN: Deep Homography Estimation for UAV Thermal Geo-localization with Satellite Imagery">
+        content="UASTHN: Uncertainty-Aware Deep Homography Estimation for UAV Satellite-Thermal Geo-localization">
   <meta name="keywords" content="Satellite Imagery, Thermal Imagery, Visual Geo-localization">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:image" content="assets/Thumbnail.png" />        
@@ -70,6 +70,11 @@
               STGL
             </a>
           </div>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://xjh19971.github.io/STHN/">
+              STHN
+            </a>
+          </div>
         </div>
       </div>
   
@@ -82,26 +87,17 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-2 publication-title">STHN: Deep Homography Estimation for UAV Thermal Geo-localization with Satellite Imagery</h1>
+          <h1 class="title is-2 publication-title">UASTHN: Uncertainty-Aware Deep Homography Estimation for UAV Satellite-Thermal Geo-localization</h1>
           <h2 class="title is-6 publlication-title"></h2>
           <div class="is-size-6 publication-authors">
             <span class="author-block">
               <a href="https://xjh19971.github.io">Jiuhong Xiao</a><sup>1</sup>,</span>
-              <span class="author-block">
-              <a href="https://scholar.google.nl/citations?user=QdEEZdEAAAAJ&hl=en">Ning Zhang</a><sup>2*</sup>,</span>
-                <span class="author-block">
-                <a href="https://scholar.google.com/citations?user=HXIhQT4AAAAJ&hl=en">Daniel Tortei</a><sup>2*</sup>,</span>
               <span class="author-block">
                 <a href="https://engineering.nyu.edu/faculty/giuseppe-loianno">Giuseppe Loianno</a><sup>1</sup>,</span> 
           </div>
 
           <div class="is-size-6 publication-authors">
             <span class="author-block"><sup>1</sup>New York University</a>,
-              <sup>2</sup>Technology Innovation Institute</a>
-          </div>
-
-          <div class="is-size-7 publication-authors">
-            <span class="author-block"><sup>*</sup>Equal Contribution</span>
           </div>
 
           <div class="column has-text-centered">
@@ -124,7 +120,7 @@
                 </a>
               </span> -->
               <span class="link-block">
-                <a href="https://github.com/arplaboratory/STHN"
+                <a href="https://github.com/arplaboratory/UASTHN"
                    class="external-link button is-normal ">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -139,7 +135,7 @@
   </div>
 </section>
 
-<section class="hero teaser">
+<!-- <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
         <video id="dinov2_gardens" autoplay controls muted loop playsinline height="100%">
@@ -148,7 +144,7 @@
         </video>
     </div>
   </div>
-</section>
+</section> -->
 
 <section class="hero is-small is-light">
   <div class="hero-body">
@@ -159,7 +155,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Accurate geo-localization of Unmanned Aerial Vehicles (UAVs) is crucial for a variety of outdoor applications including search and rescue operations, power line inspections, and environmental monitoring. The vulnerability of Global Navigation Satellite Systems (GNSS) signals to interference and spoofing necessitates the development of additional robust localization methods for autonomous navigation. Visual Geo-localization (VG), leveraging onboard cameras and reference satellite maps, offers a promising solution for absolute localization. Specifically, Thermal Geo-localization (TG), which relies on image-based matching between thermal imagery with satellite databases, stands out by utilizing infrared cameras for effective night-time localization. However, the efficiency and effectiveness of current TG approaches, are hindered by dense sampling on satellite maps and geometric noises in thermal query images. To overcome these challenges, in this paper, we introduce STHN, a novel UAV thermal geo-localization approach that employs a coarse-to-fine deep homography estimation method. This method attains reliable thermal geo-localization within a 512-meter radius of the UAV's last known location even with a challenging 11% overlap between satellite and thermal images, despite the presence of indistinct textures in thermal imagery and self-similar patterns in both spectra. Our research significantly enhances UAV thermal geo-localization performance and robustness against the impacts of geometric noises under low-visibility conditions in the wild. The code will be made publicly available.
+            Geo-localization is an essential component of Unmanned Aerial Vehicle (UAV) navigation systems to ensure precise absolute self-localization in outdoor environments. To address the challenges of GPS signal interruptions or low illumination, Thermal Geo-localization (TG) employs aerial thermal imagery to align with reference satellite maps to accurately determine the UAV’s location. However, existing TG methods lack uncertainty measurement in their outputs, compromising system robustness in the presence of textureless or corrupted thermal images, self-similar or outdated satellite maps, geometric noises, or thermal images exceeding satellite maps. To overcome these limitations, this paper presents \textit{UASTHN}, a novel approach for Uncertainty Estimation (UE) in Deep Homography Estimation (DHE) tasks for TG applications. Specifically, we introduce a novel Crop-based Test-Time Augmentation (CropTTA) strategy, which leverages the homography consensus of cropped image views to measure data uncertainty effectively. This approach complements Deep Ensembles (DE), offering comparable performance with improved efficiency and seamless integration with any DHE model. Extensive experiments across multiple DHE models demonstrate the effectiveness and efficiency of CropTTA in TG applications. Analysis of detected failure cases underscores the improved reliability of CropTTA under challenging conditions. Finally, we demonstrate the capability of combining CropTTA and DE for a comprehensive assessment of both data and model uncertainty. Our research provides profound insights into the broader intersection of localization and uncertainty estimation. The code will be publicly available.
           </p>
         </div>
       </div>
