@@ -45,25 +45,36 @@
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://xjh19971.github.io/STHN/">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </a>
     </div>
-
-  </div>
-</nav>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="https://xjh19971.github.io/STHN/">
+        <span class="icon">
+            <i class="fas fa-home"></i>
+        </span>
+        </a>
+  
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Related Research
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://xjh19971.github.io/STGL/">
+              STGL
+            </a>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </nav>
 
 
 <section class="hero">
@@ -94,15 +105,15 @@
           </div>
 
           <div class="column has-text-centered">
-              <!-- <span class="link-block">
-                <a href="https://arxiv.org/abs/2306.02994"
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2405.20470"
                    class="external-link button is-normal ">
                   <span class="icon">
                       <i class="ai ai-arxiv"></i>
                   </span>
                   <span>arXiv</span>
                 </a>
-              </span> -->
+              </span>
               <!-- <span class="link-block">
                 <a href="https://www.youtube.com/watch?v=KVHFcNsK8Bg&ab_channel=ARPLNYU"
                    class="external-link button is-normal ">
@@ -148,7 +159,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Accurate geo-localization of Unmanned Aerial Vehicles (UAVs) is crucial for a variety of outdoor applications including search and rescue operations, power line inspections, and environmental monitoring. The vulnerability of Global Navigation Satellite Systems (GNSS) signals to interference and spoofing necessitates the development of additional robust localization methods for autonomous navigation. Visual Geo-localization (VG), leveraging onboard cameras and reference satellite maps, offers a promising solution for absolute localization. Specifically, Thermal Geo-localization (TG), which relies on image-based matching between thermal imagery with satellite databases, stands out by utilizing infrared cameras for effective night-time localization. However, the efficiency and effectiveness of current TG approaches, are hindered by dense sampling on satellite maps and geometric noises in thermal query images. To overcome these challenges, in this paper, we introduce STHN, a novel UAV thermal geo-localization approach that employs a coarse-to-fine deep homography estimation method. This method attains reliable thermal geo-localization within a 512-meter radius of the UAV's last known location even with a challenging 11\% overlap between satellite and thermal images, despite the presence of indistinct textures in thermal imagery and self-similar patterns in both spectra. Our research significantly enhances UAV thermal geo-localization performance and robustness against the impacts of geometric noises under low-visibility conditions in the wild. The code will be made publicly available.
+            Accurate geo-localization of Unmanned Aerial Vehicles (UAVs) is crucial for outdoor applications including search and rescue operations, power line inspections, and environmental monitoring. The vulnerability of Global Navigation Satellite Systems (GNSS) signals to interference and spoofing necessitates the development of additional robust localization methods for autonomous navigation. Visual Geo-localization (VG), leveraging onboard cameras and reference satellite maps, offers a promising solution for absolute localization. Specifically, Thermal Geo-localization (TG), which relies on image-based matching between thermal imagery with satellite databases, stands out by utilizing infrared cameras for effective nighttime localization. However, the efficiency and effectiveness of current TG approaches, are hindered by dense sampling on satellite maps and geometric noises in thermal query images. To overcome these challenges, we introduce STHN, a novel UAV thermal geo-localization approach that employs a coarse-to-fine deep homography estimation method. This method attains reliable thermal geo-localization within a 512-meter radius of the UAV's last known location even with a challenging 11\% size ratio between thermal and satellite images, despite the presence of indistinct textures and self-similar patterns. We further show how our research significantly enhances UAV thermal geo-localization performance and robustness against geometric noises under low-visibility conditions in the wild. The code is made publicly available.
           </p>
         </div>
       </div>
@@ -284,8 +295,8 @@
             This website adapted from the Nerfies templates, which is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
           </p>
           <p>
-            If you use the <a href="https://xjh19971.github.io/STGL/">source code</a> of this website,
-            please also link back to the <a href="https://github.com/AnyLoc/AnyLoc.github.io">Nerfies source code</a> in your footer.
+            If you use the <a href="https://xjh19971.github.io/STHN/">source code</a> of this website,
+            please also link back to the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies source code</a> in your footer.
           </p>
         </div>
       </div>
