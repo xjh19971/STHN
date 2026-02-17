@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="description"
     content="STHN: Deep Homography Estimation for UAV Thermal Geo-localization with Satellite Imagery">
-  <meta name="keywords" content="Satellite Imagery, Thermal Imagery, Visual Geo-localization">
+  <meta name="keywords" content="Satellite Imagery, Thermal Imagery, Visual Geo-localization, UAV, Homography">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>STHN: Deep Homography Estimation for UAV Thermal Geo-localization with Satellite Imagery</title>
 
@@ -38,7 +38,261 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <style>
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .results-table th {
+      background-color: #3273dc;
+      color: white;
+      padding: 0.6rem 0.5rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .results-table td {
+      padding: 0.5rem;
+      text-align: center;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .results-table tbody tr:hover {
+      background-color: #f0f4ff;
+    }
+
+    .results-table .best {
+      font-weight: 700;
+      color: #3273dc;
+    }
+
+    .results-table .second {
+      text-decoration: underline;
+    }
+
+    .results-table .ours-row {
+      background-color: #eef3ff;
+      font-weight: 600;
+    }
+
+    .results-table .ours-row:hover {
+      background-color: #e0ebff;
+    }
+
+    .results-table .method-col {
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .results-table .category-col {
+      text-align: left;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      max-width: 900px;
+      margin: 1.5rem auto;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
+
+    .stat-card:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .stat-number {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #3273dc;
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 0.25rem;
+    }
+
+    .stat-detail {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 0.15rem;
+    }
+
+    .method-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      max-width: 900px;
+      margin: 1.5rem auto 0;
+    }
+
+    .method-card {
+      background: white;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+    }
+
+    .method-card:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .method-card .icon-circle {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 0.75rem;
+      background: #eef3ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #3273dc;
+    }
+
+    .method-card h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .method-card p {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .vis-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .vis-grid-3 .vis-col {
+      text-align: center;
+    }
+
+    .vis-grid-3 .vis-col h5 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .vis-grid-3 .vis-col img {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    .rob-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .rob-card {
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .rob-card h5 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .rob-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .rob-pair .rob-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #888;
+      margin-bottom: 0.3rem;
+    }
+
+    .rob-pair img {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 0.35rem;
+    }
+
+    .ablation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .ablation-grid figure {
+      margin: 0;
+      text-align: center;
+    }
+
+    .ablation-grid img {
+      max-width: 100%;
+      border-radius: 4px;
+    }
+
+    .ablation-grid figcaption {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .method-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .vis-grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.4rem;
+      }
+
+      .rob-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ablation-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 
 </head>
 
@@ -89,7 +343,7 @@
           <div class="column has-text-centered">
             <h1 class="title is-2 publication-title">STHN: Deep Homography Estimation for UAV Thermal Geo-localization
               with Satellite Imagery</h1>
-            <h2 class="subtitle is-4 publication-venue">IEEE Robotics and Automation Letters (RA-L)</h2>
+            <h2 class="subtitle is-4 publication-venue">IEEE Robotics and Automation Letters (RA-L) 2024</h2>
             <div class="is-size-6 publication-authors">
               <span class="author-block">
                 <a href="https://xjh19971.github.io">Jiuhong Xiao</a><sup>1</sup>,</span>
@@ -100,12 +354,13 @@
                 <a href="https://scholar.google.com/citations?user=HXIhQT4AAAAJ&hl=en">Daniel
                   Tortei</a><sup>2*</sup>,</span>
               <span class="author-block">
-                <a href="https://engineering.nyu.edu/faculty/giuseppe-loianno">Giuseppe Loianno</a><sup>1</sup>,</span>
+                <a href="https://arplaboratory.github.io/">Giuseppe Loianno</a><sup>1</sup>,</span>
             </div>
 
             <div class="is-size-6 publication-authors">
-              <span class="author-block"><sup>1</sup>New York University</a>,
-                <sup>2</sup>Technology Innovation Institute</a>
+              <span class="author-block"><sup>1</sup>New York University,
+                <sup>2</sup>Technology Innovation Institute
+              </span>
             </div>
 
             <div class="is-size-7 publication-authors">
@@ -133,7 +388,9 @@
                 <a href="https://huggingface.co/datasets/xjh19972/boson-nighttime/tree/main/satellite-thermal-dataset-v3"
                   class="external-link button is-normal">
                   <span class="icon">
-                    <i class="fa fa-face-smiling-hands"></i>
+                    <img class="hf-icon" src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
+                      alt="HuggingFace"
+                      style="width: 1em; height: 1em; vertical-align: middle; display: inline-block;">
                   </span>
                   <span>HF Dataset</span>
                 </a>
@@ -167,9 +424,9 @@
     </div>
   </section>
 
+  <!-- Video -->
   <section class="hero teaser">
     <div class="hero-body">
-      <!-- Paper video. -->
       <div class="columns is-centered has-text-centered">
         <div class="column is-three-fifths">
           <h2 class="title is-3">Video</h2>
@@ -182,15 +439,13 @@
         </div>
       </div>
     </div>
-    <!--Paper video-->
   </section>
 
 
-
+  <!-- Abstract -->
   <section class="hero is-small is-light">
     <div class="hero-body">
       <div class="container">
-        <!-- Abstract. -->
         <div class="columns is-centered has-text-centered">
           <div class="column is-full">
             <h2 class="title is-3">Abstract</h2>
@@ -207,7 +462,7 @@
                 approaches, are hindered by dense sampling on satellite maps and geometric noises in thermal query
                 images. To overcome these challenges, we introduce STHN, a novel UAV thermal geo-localization approach
                 that employs a coarse-to-fine deep homography estimation method. This method attains reliable thermal
-                geo-localization within a 512-meter radius of the UAV's last known location even with a challenging 11\%
+                geo-localization within a 512-meter radius of the UAV's last known location even with a challenging 11%
                 size ratio between thermal and satellite images, despite the presence of indistinct textures and
                 self-similar patterns. We further show how our research significantly enhances UAV thermal
                 geo-localization performance and robustness against geometric noises under low-visibility conditions in
@@ -217,107 +472,354 @@
           </div>
         </div>
       </div>
+    </div>
   </section>
 
-  <!-- <section class="section">
-  <div class="columns is-centered has-text-centered">
-    <div class="column is-four-fifths">
-      <h2 class="title is-3">Boson-nighttime</h2>
-      <div class="content has-text-justified">
-        <p>
-          We used FLIR's Boson thermal imager (8.7 mm focal length, 640p resolution, and 50-degree horizontal field of view). The collected images are nadir at approx. 1m/px spatial resolution. We performed six flights from 9:00 PM to 4:00 AM and label this dataset as Boson-nighttime, accordingly. To create a single map, we first run a structure-from-motion (SfM) algorithm to reconstruct the thermal map from multiple views. Subsequently, orthorectification is performed by aligning the photometric satellite maps with thermal maps at the same spatial resolution. The ground area covered by Boson-nighttime measures 33km^2 in total. The most prevalent map feature is the desert, with small portions of farms, roads, and buildings. The low-contrast self-similar thermal features in the desert regions have made it difficult for geo-localization at a finer scale. The Bing satellite map (https://www.bing.com/maps/aerial) is cropped in the corresponding area as our satellite reference map. We tile the thermal map into 512x512 px thermal image crops with a stride of 35 px. Each thermal image crop pairs with the corresponding satellite image crop. Areas covered by three flights of Boson-nighttime are used for training and validation. The remaining areas, covered by the other three flights are used for testing. The train/validation/test splits for Boson-nighttime are 10256/13011/26568 pairs of satellite and thermal image crops, respectively. 
-        </p>
-      </div>
-      <p><img id="tgm_1" src="./data/boson-nighttime.png" width="500"></p>
-    </div>
-  </div>
-
- 
-</section>
-
-<section class="hero is-light">
-<div class="hero-body">
-  <div class="columns is-centered has-text-centered">
-    <div class="column">
-      <h2 class="title is-3" >SGM Results - <span style="color: green;">Green</span> is Correct, <span style="color: red;">Red</span> is Wrong</h2>
-      <p></p>
-    </div>
-  </div>
-
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-
-      <div class="column has-text-centered">
-        <div class="content">
-          <h2 class="title is-4">Input</h2>
-          <img id="sgm_1" src="./data/sgm/image35.gif" width="400">
-          <img id="sgm_2" src="./data/sgm/image42.gif" width="400">
-          <img id="sgm_3" src="./data/sgm/image36.gif" width="400">
-          <img id="sgm_4" src="./data/sgm/image39.gif" width="400">
-        </div>
-      </div>
-
-      <div class="column has-text-centered">
-        <div class="content">
-          <h2 class="title is-4">Baseline</h2>
-          <img id="sgm_5" src="./data/sgm/image31.gif" width="400">
-          <img id="sgm_6" src="./data/sgm/image32.gif" width="400">
-          <img id="sgm_7" src="./data/sgm/image33.gif" width="400">
-          <img id="sgm_8" src="./data/sgm/image34.gif" width="400">
-        </div>
-      </div>
-
-      <div class="column has-text-centered">
-        <div class="content">
-          <h2 class="title is-4">Ours</h2>
-          <img id="sgm_9" src="./data/sgm/image37.gif" width="400">
-          <img id="sgm_6" src="./data/sgm/image38.gif" width="400">
-          <img id="sgm_7" src="./data/sgm/image40.gif" width="400">
-          <img id="sgm_8" src="./data/sgm/image41.gif" width="400">
+  <!-- Method Overview -->
+  <section class="hero is-light">
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Method Overview</h2>
+          <div class="content has-text-justified">
+            <p>
+              STHN uses a coarse-to-fine deep homography estimation pipeline with three main components: a Thermal
+              Generative Module (TGM), a coarse alignment module, and a refinement module. The coarse alignment module
+              first estimates a rough homography between resized satellite and thermal images. The refinement module
+              then crops the aligned region and performs fine-grained alignment. A two-stage training strategy with
+              bounding box augmentation ensures robust refinement.
+            </p>
+          </div>
+          <figure>
+            <img src="./assets/figures/framework.png" alt="STHN Framework Architecture" loading="lazy">
+            <figcaption style="text-align: center; font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+              <strong>Framework overview.</strong> The coarse alignment module estimates a rough homography, then the
+              refinement module crops and refines the aligned region for precise localization.
+            </figcaption>
+          </figure>
         </div>
       </div>
     </div>
-  </div>
-</div>
-</section>
+  </section>
 
+  <!-- Quantitative Results -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Quantitative Results</h2>
+          <p class="subtitle is-6" style="margin-top: -0.5rem; color: #666;">
+            Comparison of test MACE (m) between different homography estimation methods across different D<sub>C</sub>.
+            Lower is better.
+          </p>
+        </div>
+      </div>
 
-<section class="section">
-  <div class="columns is-centered has-text-centered">
-    <div class="column">
-      <h2 class="title is-3">TGM Generated Thermal Images</h2>
-      <p></p>
+      <div class="columns is-centered">
+        <div class="column is-full">
+          <div class="table-container">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>D<sub>C</sub>=50m</th>
+                  <th>D<sub>C</sub>=64m</th>
+                  <th>D<sub>C</sub>=128m</th>
+                  <th>D<sub>C</sub>=256m</th>
+                  <th>D<sub>C</sub>=512m</th>
+                  <th>Failure Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="method-col">SIFT + RANSAC</td>
+                  <td>442.20</td>
+                  <td>654.77</td>
+                  <td>547.29</td>
+                  <td>529.63</td>
+                  <td>1650.46</td>
+                  <td>99.6%</td>
+                </tr>
+                <tr>
+                  <td class="method-col">SIFT + MAGSAC++</td>
+                  <td>512.60</td>
+                  <td>438.54</td>
+                  <td>529.46</td>
+                  <td>561.64</td>
+                  <td>693.03</td>
+                  <td>99.7%</td>
+                </tr>
+                <tr>
+                  <td class="method-col">ORB + RANSAC</td>
+                  <td>720.80</td>
+                  <td>733.69</td>
+                  <td>733.94</td>
+                  <td>4614.84</td>
+                  <td>975.83</td>
+                  <td>82.6%</td>
+                </tr>
+                <tr>
+                  <td class="method-col">LoFTR + RANSAC</td>
+                  <td>1123.74</td>
+                  <td>1697.33</td>
+                  <td>1317.69</td>
+                  <td>1269.71</td>
+                  <td>2564.65</td>
+                  <td>0%</td>
+                </tr>
+                <tr>
+                  <td class="method-col">DHN</td>
+                  <td>16.78</td>
+                  <td>20.43</td>
+                  <td>77.68</td>
+                  <td>197.27</td>
+                  <td>457.23</td>
+                  <td>0%</td>
+                </tr>
+                <tr>
+                  <td class="method-col">IHN</td>
+                  <td class="second">5.91</td>
+                  <td class="second">7.81</td>
+                  <td class="second">51.74</td>
+                  <td>190.93</td>
+                  <td>367.24</td>
+                  <td>0%</td>
+                </tr>
+                <tr class="ours-row">
+                  <td class="method-col">Ours (W<sub>S</sub>=512)</td>
+                  <td class="best">4.24</td>
+                  <td class="best">4.93</td>
+                  <td>14.97</td>
+                  <td>142.71</td>
+                  <td>347.50</td>
+                  <td>0%</td>
+                </tr>
+                <tr class="ours-row">
+                  <td class="method-col">Ours (W<sub>S</sub>=1024)</td>
+                  <td>4.92</td>
+                  <td>5.31</td>
+                  <td class="best">6.03</td>
+                  <td class="best">9.22</td>
+                  <td class="second">86.74</td>
+                  <td>0%</td>
+                </tr>
+                <tr class="ours-row">
+                  <td class="method-col">Ours (W<sub>S</sub>=1536)</td>
+                  <td>6.50</td>
+                  <td>7.04</td>
+                  <td>7.27</td>
+                  <td class="second">16.78</td>
+                  <td>16.42</td>
+                  <td>0%</td>
+                </tr>
+                <tr class="ours-row">
+                  <td class="method-col">Ours (two-stage)</td>
+                  <td>7.51</td>
+                  <td>7.20</td>
+                  <td>7.51</td>
+                  <td>14.99</td>
+                  <td class="best">12.70</td>
+                  <td>0%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="has-text-centered" style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
+            <span class="best">Blue bold</span> = best result.
+            <span class="second">Underlined</span> = second best.
+            <span
+              style="background-color: #eef3ff; padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 600;">Highlighted
+              row</span>
+            = our method.
+          </p>
+
+          <!-- Comparison with image-based methods -->
+          <div style="margin-top: 2.5rem;">
+            <p class="subtitle is-6 has-text-centered" style="color: #666;">
+              Comparison with image-based matching methods at D<sub>C</sub>=512m.
+            </p>
+            <div class="table-container" style="max-width: 600px; margin: 0 auto;">
+              <table class="results-table">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Test CE (m)</th>
+                    <th>Latency (ms)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="method-col">AnyLoc-VLAD-DINOv2</td>
+                    <td>258.21</td>
+                    <td>352,404</td>
+                  </tr>
+                  <tr>
+                    <td class="method-col">STGL-NetVLAD-ResNet50</td>
+                    <td>89.31</td>
+                    <td>7,180</td>
+                  </tr>
+                  <tr>
+                    <td class="method-col">STGL-GeM-ResNet50</td>
+                    <td class="second">13.52</td>
+                    <td>4,919</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-col">Ours (one-stage)</td>
+                    <td>15.90</td>
+                    <td class="best">35.2</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-col">Ours (two-stage)</td>
+                    <td class="best">12.12</td>
+                    <td class="second">63.9</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
+  <!-- Ablation Study -->
+  <section class="hero is-light">
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Ablation Study</h2>
+          <div class="content has-text-justified">
+            <p>
+              We investigate the effects of the Thermal Generative Module (TGM) and the relationship between satellite
+              image size W<sub>S</sub> and search distance D<sub>C</sub> on alignment accuracy.
+            </p>
+          </div>
 
-      <div class="column has-text-centered">
-        <div class="content">
-          <h2 class="title is-4">Satellite</h2>
-          <img id="tgm_1" src="./data/tgm/tgm_1.gif" width="400">
-        </div>
-      </div>
-
-      <div class="column has-text-centered">
-        <div class="content">
-          <h2 class="title is-4">Enhanced Generated</h2>
-          <img id="tgm_2" src="./data/tgm/tgm_2.gif" width="400">
-        </div>
-      </div>
-
-      <div class="column has-text-centered">
-        <div class="content">
-          <h2 class="title is-4">Enhanced Ground Truth</h2>
-          <img id="tgm_3" src="./data/tgm/tgm_3.gif" width="400">
+          <div class="ablation-grid">
+            <figure>
+              <img src="./assets/figures/tgm.png" alt="TGM effectiveness plot" loading="lazy">
+              <figcaption><strong>Effectiveness of TGM.</strong> Validation MACE across different D<sub>C</sub> with and
+                without TGM when W<sub>S</sub>=512.</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/figures/coarse.png" alt="Coarse alignment analysis" loading="lazy">
+              <figcaption><strong>Coarse alignment analysis.</strong> Validation MACE vs. W<sub>S</sub> across various
+                D<sub>C</sub>.</figcaption>
+            </figure>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
- -->
+  <!-- Visual Results -->
+  <section class="section">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Visual Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            Sample satellite-thermal alignment results at W<sub>S</sub>=512 resolution. The overlay shows the predicted
+            alignment between the thermal query and the satellite reference.
+          </p>
+        </div>
+
+        <div class="vis-grid-3">
+          <div class="vis-col">
+            <h5>Satellite</h5>
+            <img src="./assets/figures/vis_sat_1.png" alt="Satellite 1" loading="lazy">
+            <img src="./assets/figures/vis_sat_2.png" alt="Satellite 2" loading="lazy">
+            <img src="./assets/figures/vis_sat_3.png" alt="Satellite 3" loading="lazy">
+            <img src="./assets/figures/vis_sat_4.png" alt="Satellite 4" loading="lazy">
+          </div>
+          <div class="vis-col">
+            <h5>Thermal</h5>
+            <img src="./assets/figures/vis_thermal_1.png" alt="Thermal 1" loading="lazy">
+            <img src="./assets/figures/vis_thermal_2.png" alt="Thermal 2" loading="lazy">
+            <img src="./assets/figures/vis_thermal_3.png" alt="Thermal 3" loading="lazy">
+            <img src="./assets/figures/vis_thermal_4.png" alt="Thermal 4" loading="lazy">
+          </div>
+          <div class="vis-col">
+            <h5>Overlay (GT)</h5>
+            <img src="./assets/figures/vis_overlap_1.png" alt="Overlap 1" loading="lazy">
+            <img src="./assets/figures/vis_overlap_2.png" alt="Overlap 2" loading="lazy">
+            <img src="./assets/figures/vis_overlap_3.png" alt="Overlap 3" loading="lazy">
+            <img src="./assets/figures/vis_overlap_4.png" alt="Overlap 4" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Robustness -->
+  <section class="hero is-light">
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Robustness to Geometric Noise</h2>
+          <div class="content has-text-justified">
+            <p>
+              Our two-stage method maintains accurate localization under rotation, resizing, and perspective
+              transformation noise.
+              <span style="color: green; font-weight: 600;">Green</span> = Ground Truth,
+              <span style="color: blue; font-weight: 600;">Blue</span> = Coarse Alignment,
+              <span style="color: red; font-weight: 600;">Red</span> = Final Prediction.
+            </p>
+          </div>
+
+          <div class="rob-grid">
+            <div class="rob-card">
+              <h5>Rotation Noise</h5>
+              <div class="rob-pair">
+                <div>
+                  <div class="rob-label">One Stage</div>
+                  <img src="./assets/figures/rot_1stage_1.png" alt="Rotation, 1-stage" loading="lazy">
+                  <img src="./assets/figures/rot_1stage_2.png" alt="Rotation, 1-stage" loading="lazy">
+                </div>
+                <div>
+                  <div class="rob-label">Two Stages</div>
+                  <img src="./assets/figures/rot_2stage_1.png" alt="Rotation, 2-stage" loading="lazy">
+                  <img src="./assets/figures/rot_2stage_2.png" alt="Rotation, 2-stage" loading="lazy">
+                </div>
+              </div>
+            </div>
+            <div class="rob-card">
+              <h5>Resizing Noise</h5>
+              <div class="rob-pair">
+                <div>
+                  <div class="rob-label">One Stage</div>
+                  <img src="./assets/figures/resize_1stage_1.png" alt="Resize, 1-stage" loading="lazy">
+                  <img src="./assets/figures/resize_1stage_2.png" alt="Resize, 1-stage" loading="lazy">
+                </div>
+                <div>
+                  <div class="rob-label">Two Stages</div>
+                  <img src="./assets/figures/resize_2stage_1.png" alt="Resize, 2-stage" loading="lazy">
+                  <img src="./assets/figures/resize_2stage_2.png" alt="Resize, 2-stage" loading="lazy">
+                </div>
+              </div>
+            </div>
+            <div class="rob-card">
+              <h5>Perspective Noise</h5>
+              <div class="rob-pair">
+                <div>
+                  <div class="rob-label">One Stage</div>
+                  <img src="./assets/figures/pers_1stage_1.png" alt="Perspective, 1-stage" loading="lazy">
+                  <img src="./assets/figures/pers_1stage_2.png" alt="Perspective, 1-stage" loading="lazy">
+                </div>
+                <div>
+                  <div class="rob-label">Two Stages</div>
+                  <img src="./assets/figures/pers_2stage_1.png" alt="Perspective, 2-stage" loading="lazy">
+                  <img src="./assets/figures/pers_2stage_2.png" alt="Perspective, 2-stage" loading="lazy">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
@@ -325,13 +827,12 @@
       <pre><code>
       @ARTICLE{xiao2024sthn,
         author={Xiao, Jiuhong and Zhang, Ning and Tortei, Daniel and Loianno, Giuseppe},
-        journal={IEEE Robotics and Automation Letters}, 
-        title={STHN: Deep Homography Estimation for UAV Thermal Geo-Localization With Satellite Imagery}, 
+        journal={IEEE Robotics and Automation Letters},
+        title={STHN: Deep Homography Estimation for UAV Thermal Geo-Localization With Satellite Imagery},
         year={2024},
         volume={9},
         number={10},
         pages={8754-8761},
-        keywords={Estimation;Location awareness;Satellites;Satellite images;Autonomous aerial vehicles;Accuracy;Iterative methods;Deep learning for visual perception;aerial systems: applications;localization},
         doi={10.1109/LRA.2024.3448129}}
     </code></pre>
     </div>
